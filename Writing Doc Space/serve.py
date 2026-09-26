@@ -12,7 +12,7 @@ import sys
 import webbrowser
 import os
 
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 5500
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
