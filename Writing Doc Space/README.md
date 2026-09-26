@@ -18,9 +18,53 @@ data-intelligence-codex/
 └── README.md
 ```
 
-Open `index.html` directly in a browser to preview it locally, or
-upload the whole folder as-is to any static host (GitHub Pages,
-Netlify, Vercel, etc.) — nothing needs to be built or compiled.
+## Run it locally
+
+Fastest: just double-click `index.html`.
+
+Better while you're actively editing (avoids browser quirks with
+`file://` links):
+```
+python3 serve.py
+```
+This starts a local server and opens `http://localhost:8000` in your
+browser automatically. Leave it running, edit `js/content.js` (or
+any file), and refresh the tab to see the change. Stop it with
+`Ctrl+C`. Pass a different port with `python3 serve.py 5500` if 8000
+is taken.
+
+## Ship it online
+
+This site is 100% static — no build step, no server code, no
+database. It also uses hash-based routing (`#/datasets`, etc.), so
+there is no server-side routing to configure; any static host works
+out of the box.
+
+**Netlify Drop (no account needed for a quick link):**
+Go to https://app.netlify.com/drop and drag the whole
+`data-intelligence-codex-site` folder onto the page. You get a live
+URL in a few seconds. (Create a free account if you want to keep the
+site and update it later rather than get a one-off throwaway link.)
+
+**GitHub Pages (free, tied to a repo):**
+1. Push this folder to a GitHub repository.
+2. In the repo, go to **Settings → Pages**.
+3. Under "Build and deployment," set the source to your main branch
+   (root folder).
+4. GitHub gives you a `https://<username>.github.io/<repo>/` URL
+   within a minute or two.
+
+**Vercel (free, good if you want custom domains later):**
+1. Go to https://vercel.com/new and import the repo (or drag the
+   folder in via their dashboard).
+2. Leave the build settings blank/default — there's nothing to
+   build.
+3. Deploy. You get a live URL immediately, plus one for every future
+   push if it's connected to a repo.
+
+Whichever you pick, updating the live site later just means
+re-uploading the folder (or pushing to the connected repo) — nothing
+about the project changes to support this.
 
 ## Adding a dataset, ML project, or AI Engineering project
 
