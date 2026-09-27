@@ -10,299 +10,35 @@
 const app = document.getElementById('app');
 const YEAR = new Date().getFullYear();
 
-function escapeHtml(str){
-  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-function pad(n){ return String(n).padStart(2,'0'); }
-
-function codeBlock(code, lang){
-  if(!code) return '';
-  const id = 'cb' + Math.random().toString(36).slice(2,9);
-  return `<div class="codeblock">
-    <div class="codeblock-head">
-      <span class="codeblock-lang">${lang || 'text'}</span>
-      <button class="copy-btn" onclick="copyCode('${id}', this)">Copy</button>
-    </div>
-    <pre><code id="${id}" class="language-${lang || 'plaintext'}">${escapeHtml(code)}</code></pre>
-  </div>`;
-}
-
-function copyCode(id, btn){
-  const el = document.getElementById(id);
-  navigator.clipboard.writeText(el.textContent).then(()=>{
-    const old = btn.textContent;
-    btn.textContent = 'Copied';
-    setTimeout(()=>{ btn.textContent = old; }, 1400);
-  }).catch(()=>{});
-}
-
-function statusLabel(status){
-  const map = { complete:'Complete', 'in-progress':'In progress' };
-  return map[status] || status || '—';
-}
-
-function projectCard(p, kind, index){
-  return `<div class="card" onclick="navigate('${kind}Detail','${p.id}')">
-    <span class="card-num">${pad(index+1)}</span>
-    <span class="card-cat">${p.category || ''}</span>
-    <h3>${p.title}</h3>
-    <p>${p.description}</p>
-    <span class="card-stack">${(p.tools||[]).join(' · ')}</span>
-    <div class="card-foot">
-      <span class="${p.status==='complete' ? 'status-complete' : ''}">${statusLabel(p.status)}</span>
-      <span>${p.year || ''}</span>
-    </div>
-  </div>`;
-}
-
-function projectGrid(list, kind, emptyLabel){
-  if(list.length === 0){
-    return `<div class="grid"><div class="empty-card"><b>Nothing archived yet</b><span>${emptyLabel}</span></div></div>`;
-  }
-  return `<div class="grid">${list.map((p,i)=>projectCard(p,kind,i)).join('')}</div>`;
-}
-
-function renderHome(){
-  document.title = "Data Intelligence Codex";
-  const aiActive = AI_PROJECTS.length > 0;
-  app.innerHTML = `
-    <section class="hero">
-      <span class="hero-archive-tag">ARCHIVE / ${YEAR}</span>
-      <p class="eyebrow">Data Science / Machine Learning / AI Engineering</p>
-      <h1 class="hero-title">
-        <span class="line-1">Data Intelligence</span>
-        <span class="line-2">Codex</span>
-      </h1>
-      <p class="hero-subhead">Projects, experiments, and technical notes.</p>
-      <p class="hero-desc">A working archive of data systems, machine learning experiments, and AI engineering projects — documenting what was built, why it works, where it breaks, and what I learned from it.</p>
-      <div class="editorial">
-        <span class="editorial-rule"></span>
-        <p>Every project is a case study in how data becomes a system.</p>
-      </div>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" onclick="navigate('datasets')">Explore the Codex</a>
-        <a class="btn btn-ghost" onclick="navigate('ml')">View Projects</a>
-      </div>
-    </section>
-
-    <section class="codex-section">
-      <p class="meta-tag">Project log 001</p>
-      <h2>The Codex</h2>
-      <p class="codex-lead">Selected experiments in data analysis, machine learning, retrieval systems, and AI engineering.</p>
-      <p class="codex-body">Projects are documented from raw data through implementation, evaluation, and iteration.</p>
-
-      <div class="areas-grid">
-        <div class="area-card" onclick="navigate('datasets')">
-          <span class="area-index">01</span>
-          <h3>Data Science</h3>
-          <p>Explore datasets, uncover patterns, clean messy data, and turn observations into meaningful insights.</p>
-          <span class="area-cta">Explore Datasets →</span>
-        </div>
-        <div class="area-card" onclick="navigate('ml')">
-          <span class="area-index">02</span>
-          <h3>Machine Learning</h3>
-          <p>Experiment with models, understand their behavior, compare approaches, and learn from their failures.</p>
-          <span class="area-cta">Explore ML →</span>
-        </div>
-        <div class="area-card" onclick="navigate('ai')">
-          ${!aiActive ? `<span class="area-flag">Experimental / in progress</span>` : ''}
-          <span class="area-index">03</span>
-          <h3>AI Engineering</h3>
-          <p>Build systems with embeddings, RAG, LLMs, agents, and the technologies shaping modern AI.</p>
-          <span class="area-cta">${aiActive ? 'Explore AI' : 'Evolving'} →</span>
-        </div>
-      </div>
-    </section>
-  `;
-}
-
 function renderDatasets(){
   document.title = "Datasets — Data Intelligence Codex";
   app.innerHTML = `
     <div class="page-head"><h2>Datasets</h2></div>
-    ${projectGrid(DATASETS, 'dataset', 'Add entries to DATASETS in content.js to populate this page.')}
+    <div id="gridMount"></div>
   `;
+  renderProjectGrid('datasets', 'gridMount');
 }
-
-function renderDatasetDetail(id){
-  const list = DATASETS;
-  const idx = list.findIndex(x=>x.id===id);
-  const d = list[idx];
-  if(!d){ app.innerHTML = notFound('dataset','datasets'); return; }
-  document.title = d.title + " — Data Intelligence Codex";
-  app.innerHTML = `
-    <div class="detail-head">
-      <span class="back-link" onclick="navigate('datasets')">‹ All datasets</span>
-      <p class="meta-tag">Project log ${pad(idx+1)}</p>
-      <h2>${d.title}</h2>
-      <div class="detail-meta">
-        <span class="cat">${d.category || ''}</span>
-        <span>·</span><span>Status / ${statusLabel(d.status)}</span>
-        <span>·</span><span>${d.year || ''}</span>
-      </div>
-      <div class="detail-stack">${(d.tools||[]).join(' · ')}</div>
-    </div>
-
-    <div class="block">
-      <h3>Dataset overview</h3>
-      <p>${d.overview}</p>
-    </div>
-
-    <div class="block">
-      <h3>Problem / objective</h3>
-      <p>${d.objective}</p>
-    </div>
-
-    <div class="block">
-      <h3>Data cleaning</h3>
-      ${(d.cleaningSteps||[]).map(s=>`
-        <div class="step">
-          <h4>${s.title}</h4>
-          <p><strong style="color:var(--text);">Why:</strong> ${s.why}</p>
-          ${s.code ? codeBlock(s.code, s.lang) : ''}
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="block">
-      <h3>Analysis &amp; exploration</h3>
-      ${(d.analysis||[]).map(a=>`
-        <div class="qcard">
-          <div class="qcard-row"><div class="qcard-label">Question</div><p>${a.question}</p></div>
-          <div class="qcard-row"><div class="qcard-label">Approach</div><p>${a.approach}</p></div>
-          ${a.code ? `<div class="qcard-row" style="padding-bottom:4px;"><div class="qcard-label">Code</div>${codeBlock(a.code, a.lang)}</div>` : ''}
-          ${a.result ? `<div class="qcard-row result-row"><div class="qcard-label">Result</div><p>${a.result}</p></div>` : ''}
-          ${a.insight ? `<div class="qcard-row"><div class="qcard-label">Insight</div><p>${a.insight}</p></div>` : `<div class="qcard-row"><div class="qcard-label">Insight</div><p style="color:var(--text-faint);">Still being written up.</p></div>`}
-        </div>
-      `).join('')}
-    </div>
-  `;
-  hljs.highlightAll();
-}
+function renderDatasetDetail(id){ renderProjectDetail('datasets', id); }
 
 function renderML(){
   document.title = "Machine Learning — Data Intelligence Codex";
   app.innerHTML = `
     <div class="page-head"><h2>Machine Learning</h2></div>
-    ${projectGrid(ML_PROJECTS, 'ml', 'Add entries to ML_PROJECTS in content.js to populate this page.')}
+    <div id="gridMount"></div>
   `;
+  renderProjectGrid('ml', 'gridMount');
 }
+function renderMLDetail(id){ renderProjectDetail('ml', id); }
 
 function renderAI(){
   document.title = "AI Engineering — Data Intelligence Codex";
   app.innerHTML = `
     <div class="page-head"><h2>AI Engineering</h2></div>
-    ${projectGrid(AI_PROJECTS, 'ai', 'Add entries to AI_PROJECTS in content.js to populate this page.')}
+    <div id="gridMount"></div>
   `;
+  renderProjectGrid('ai', 'gridMount');
 }
-
-function renderMLDetail(id){
-  const list = ML_PROJECTS;
-  const idx = list.findIndex(x=>x.id===id);
-  const p = list[idx];
-  if(!p){ app.innerHTML = notFound('project','ml'); return; }
-  document.title = p.title + " — Data Intelligence Codex";
-  app.innerHTML = `
-    <div class="detail-head">
-      <span class="back-link" onclick="navigate('ml')">‹ All ML projects</span>
-      <p class="meta-tag">Project log ${pad(idx+1)}</p>
-      <h2>${p.title}</h2>
-      <div class="detail-meta">
-        <span class="cat">${p.category || ''}</span>
-        <span>·</span><span>Status / ${statusLabel(p.status)}</span>
-        <span>·</span><span>${p.year || ''}</span>
-      </div>
-      <div class="detail-stack">${(p.tools||[]).join(' · ')}</div>
-    </div>
-
-    <div class="block">
-      <h3>Problem</h3>
-      <p>${p.problem}</p>
-      ${p.datasetNote ? `<p style="font-size:0.9rem;color:var(--text-faint);">${p.datasetNote}</p>` : ''}
-    </div>
-
-    <div class="block">
-      <h3>Preprocessing</h3>
-      ${(p.preprocessing||[]).map(s=>`
-        <div class="step">
-          <h4>${s.title}</h4>
-          <p><strong style="color:var(--text);">Why:</strong> ${s.why}</p>
-          ${s.code ? codeBlock(s.code, s.lang) : ''}
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="block">
-      <h3>Model choice</h3>
-      <p><strong style="color:var(--text);">What:</strong> ${p.modelChoice ? p.modelChoice.model : ''}</p>
-      <p><strong style="color:var(--text);">Why:</strong> ${p.modelChoice ? p.modelChoice.why : ''}</p>
-    </div>
-
-    <div class="block">
-      <h3>Evaluation &amp; results</h3>
-      <div class="qcard">
-        <div class="qcard-row"><div class="qcard-label">Metric</div><p>${p.evaluation ? p.evaluation.metric : ''}</p></div>
-        <div class="qcard-row result-row"><div class="qcard-label">Result</div><p>${p.evaluation ? p.evaluation.result : ''}</p></div>
-        <div class="qcard-row"><div class="qcard-label">Interpretation</div><p>${p.evaluation ? p.evaluation.interpretation : ''}</p></div>
-      </div>
-    </div>
-
-    <div class="block">
-      <h3>Future work</h3>
-      <p>${p.futureWork || ''}</p>
-    </div>
-  `;
-  hljs.highlightAll();
-}
-
-function renderAIDetail(id){
-  const list = AI_PROJECTS;
-  const idx = list.findIndex(x=>x.id===id);
-  const p = list[idx];
-  if(!p){ app.innerHTML = notFound('project','ai'); return; }
-  document.title = p.title + " — Data Intelligence Codex";
-  app.innerHTML = `
-    <div class="detail-head">
-      <span class="back-link" onclick="navigate('ai')">‹ All AI Engineering projects</span>
-      <p class="meta-tag">Project log ${pad(idx+1)}</p>
-      <h2>${p.title}</h2>
-      <div class="detail-meta">
-        <span class="cat">${p.category || ''}</span>
-        <span>·</span><span>Status / ${statusLabel(p.status)}</span>
-        <span>·</span><span>${p.year || ''}</span>
-      </div>
-      <div class="detail-stack">${(p.tools||[]).join(' · ')}</div>
-    </div>
-
-    <div class="block">
-      <h3>Problem</h3>
-      <p>${p.problem}</p>
-    </div>
-
-    <div class="block">
-      <h3>Approach</h3>
-      ${(p.architecture||[]).map(s=>`
-        <div class="step">
-          <h4>${s.title}</h4>
-          <p><strong style="color:var(--text);">Why:</strong> ${s.why}</p>
-          ${s.code ? codeBlock(s.code, s.lang) : ''}
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="block">
-      <h3>Evaluation &amp; results</h3>
-      <p>${p.evaluation || ''}</p>
-    </div>
-
-    <div class="block">
-      <h3>Future work</h3>
-      <p>${p.futureWork || ''}</p>
-    </div>
-  `;
-  hljs.highlightAll();
-}
+function renderAIDetail(id){ renderProjectDetail('ai', id); }
 
 function iconSvg(name){
   if(name === 'github'){

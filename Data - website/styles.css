@@ -455,6 +455,73 @@ code.inline{
 .now-item b{display:block; font-size:0.9rem; font-weight:600;}
 .now-item span{font-size:0.84rem; color:var(--text-faint);}
 
+/* shared small utilities */
+.empty-hint{color:var(--text-faint); font-size:0.88rem; font-style:italic;}
+.btn-sm{
+  display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:2px;
+  font-size:0.8rem; font-weight:500; cursor:pointer; border:1px solid var(--border-strong); color:var(--text);
+  background:transparent; transition:border-color .2s ease, background .2s ease;
+}
+.btn-sm:hover{background:var(--card-bg);}
+
+/* ---------------------------------------------------------------
+   NOTEBOOK RENDERING
+   --------------------------------------------------------------- */
+.nb-container{margin-top:24px;}
+.nb-cell{margin-bottom:24px;}
+.nb-markdown h1,.nb-markdown h2,.nb-markdown h3,.nb-markdown h4,.nb-markdown h5,.nb-markdown h6{
+  font-family:var(--font-head); font-weight:600; margin-top:1.3em;
+}
+.nb-markdown p{margin-bottom:1em;}
+.nb-markdown ul,.nb-markdown ol{margin:0 0 1em 1.2em; padding:0; color:var(--text-dim);}
+.nb-markdown li{margin-bottom:0.4em;}
+.nb-markdown blockquote{
+  border-left:2px solid var(--border-strong); padding-left:16px;
+  color:var(--text-dim); font-style:italic; margin:0 0 1em;
+}
+.nb-code-cell{display:flex; flex-direction:column; gap:6px;}
+.nb-exec{font-family:var(--font-mono); font-size:0.72rem; color:var(--text-faint);}
+.nb-raw pre{
+  font-family:var(--font-mono); font-size:0.82rem; color:var(--text-dim);
+  background:var(--card-bg); border:1px solid var(--border); padding:12px 14px; white-space:pre-wrap;
+}
+.nb-output{
+  font-family:var(--font-mono); font-size:0.82rem; color:var(--text-dim); white-space:pre-wrap;
+  background:var(--card-bg); border:1px solid var(--border); padding:12px 14px; margin-top:4px;
+  border-radius:3px; max-height:360px; overflow:auto;
+}
+.nb-output.nb-stderr{color:var(--text-faint); border-left:2px solid var(--border-strong);}
+.nb-output.nb-error{border-color:var(--border-strong); color:var(--text);}
+.nb-error-label{font-weight:600;}
+.nb-output.nb-image{background:none; border:none; padding:0; max-height:none;}
+.nb-output.nb-image img{max-width:100%; border:1px solid var(--border); border-radius:3px;}
+.nb-output.nb-html{background:var(--bg-elevated); border:1px solid var(--border); padding:16px; max-height:none; white-space:normal;}
+.nb-output.nb-html table{border-collapse:collapse; width:100%; font-family:var(--font-mono); font-size:0.78rem;}
+.nb-output.nb-html th,.nb-output.nb-html td{border:1px solid var(--border); padding:6px 10px; text-align:left;}
+.nb-output.nb-html th{color:var(--text-faint); font-weight:600; text-transform:uppercase; font-size:0.66rem; letter-spacing:0.04em;}
+.nb-file-divider{margin:56px 0 26px; padding-top:22px; border-top:1px solid var(--border);}
+.nb-file-divider span{
+  font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--text-faint);
+}
+.nb-file-divider h3{font-size:1.1rem; margin-top:4px; font-weight:600;}
+
+/* ---------------------------------------------------------------
+   ADD PROJECT — upload dropzone
+   --------------------------------------------------------------- */
+.dropzone{
+  grid-column:1/-1; border:1px dashed var(--border-strong); background:var(--bg-elevated);
+  padding:44px 24px; text-align:center; transition:border-color .2s ease, background .2s ease;
+}
+.dropzone.drag-over{border-color:var(--text-dim); background:var(--card-bg);}
+.dropzone-inner{display:flex; flex-direction:column; align-items:center; gap:6px;}
+.dropzone-plus{font-family:var(--font-serif); font-size:2.1rem; color:var(--text-faint); line-height:1;}
+.dropzone-title{font-family:var(--font-head); font-weight:600; font-size:1.02rem; margin:2px 0 0;}
+.dropzone-sub{font-size:0.86rem; color:var(--text-dim); margin:0;}
+.dropzone-types{font-family:var(--font-mono); font-size:0.7rem; color:var(--text-faint); margin:0 0 10px;}
+.dropzone-btn{cursor:pointer;}
+.dropzone-status{font-family:var(--font-mono); font-size:0.72rem; color:var(--text-faint); min-height:1em; margin:8px 0 0;}
+
 /* footer */
 .foot{
   border-top:1px solid var(--border); margin-top:40px; padding:26px clamp(20px,4vw,56px);
