@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data Intelligence Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<canvas id="leafCanvas" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <div class="brand" onclick="navigate('home')" role="link" tabindex="0">
+    <span class="brand-mark">Data <span>Codex</span></span>
+    <span class="brand-sub">// data intelligence codex</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link" data-route="home" onclick="navigate('home')">Home</a>
+    <a class="nav-link" data-route="datasets" onclick="navigate('datasets')">Datasets</a>
+    <a class="nav-link" data-route="ml" onclick="navigate('ml')">Machine Learning</a>
+    <a class="nav-link" data-route="ai" onclick="navigate('ai')">AI Engineering</a>
+    <a class="nav-link" data-route="about" onclick="navigate('about')">About / Projects</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="page" id="app"></main>
+
+<footer class="foot">
+  <span>Data Intelligence Codex — personal research archive.</span>
+  <span>Last updated / <span id="footYear"></span></span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+
+<script src="js/content.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
