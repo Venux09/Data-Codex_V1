@@ -227,8 +227,14 @@ async function renderProjectGrid(section, mountId){
     grid.insertAdjacentHTML('beforeend', `
       <div class="card" onclick="navigate('${SECTION_ROUTE[section]}Detail','${e.id}')">
         <span class="card-num">${padNum(e.number)}</span>
-        <span class="card-cat">${e.files.length} file${e.files.length > 1 ? 's' : ''}</span>
+        <span class="card-cat">${escapeHtml(e.category || '')}</span>
         <h3>${escapeHtml(e.title)}</h3>
+        ${e.description ? `<p>${escapeHtml(e.description)}</p>` : ''}
+        ${(e.tools && e.tools.length) ? `<span class="card-stack">${e.tools.map(escapeHtml).join(' · ')}</span>` : ''}
+        <div class="card-foot">
+          <span>${e.files.length} file${e.files.length > 1 ? 's' : ''}</span>
+          <span>${escapeHtml(e.year || '')}</span>
+        </div>
       </div>
     `);
   });
@@ -266,6 +272,12 @@ async function renderProjectDetail(section, id){
       <span class="back-link" onclick="navigate('${backRoute}')">‹ All ${escapeHtml(SECTION_LABEL[section])}</span>
       <p class="meta-tag">Project log ${padNum(entry.number)}</p>
       <h2>${escapeHtml(entry.title)}</h2>
+      <div class="detail-meta">
+        ${entry.category ? `<span class="cat">${escapeHtml(entry.category)}</span><span>·</span>` : ''}
+        <span>${entry.files.length} file${entry.files.length > 1 ? 's' : ''}</span>
+        ${entry.year ? `<span>·</span><span>${escapeHtml(entry.year)}</span>` : ''}
+      </div>
+      ${(entry.tools && entry.tools.length) ? `<div class="detail-stack">${entry.tools.map(escapeHtml).join(' · ')}</div>` : ''}
     </div>
     <div class="nb-container">${body}</div>
   `;

@@ -1,0 +1,53 @@
+{
+  "entries": [
+    {
+      "id": "cleaning-data",
+      "title": "USA Real Estate Data- Cleaning",
+      "description": null,
+      "category": "Data Science",
+      "tools": [
+        "Matplotlib",
+        "NumPy",
+        "Pandas",
+        "Seaborn"
+      ],
+      "year": "2026",
+      "files": [
+        "Cleaning_data.ipynb"
+      ],
+      "labels": [
+        "USA Real Estate Data- Cleaning"
+      ],
+      "number": 1
+    },
+    {
+      "id": "us-real-estate",
+      "title": "Us real estate",
+      "description": null,
+      "category": "Data Science",
+      "tools": [
+        "Matplotlib",
+        "NumPy",
+        "Pandas",
+        "Seaborn",
+        "SymPy"
+      ],
+      "year": "2026",
+      "files": [
+        "us-real-estate/1-data-review.ipynb",
+        "us-real-estate/2-data-specification.ipynb",
+        "us-real-estate/3-cleaning-data.ipynb",
+        "us-real-estate/4-questions.ipynb",
+        "us-real-estate/5-insights-estate.ipynb"
+      ],
+      "labels": [
+        "Review of the Data of USA - REAL ESTATE",
+        "Making an sample",
+        "USA Real Estate Data- Cleaning",
+        "Finding meaning insights from the data and making a summary and making program to solve the problem",
+        "Insights of the Cleaned Estate dataset"
+      ],
+      "number": 2
+    }
+  ]
+}
