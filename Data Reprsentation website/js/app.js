@@ -10,6 +10,58 @@
 const app = document.getElementById('app');
 const YEAR = new Date().getFullYear();
 
+function renderHome(){
+  document.title = "Data Intelligence Codex";
+  app.innerHTML = `
+    <section class="hero">
+      <span class="hero-archive-tag">ARCHIVE / ${YEAR}</span>
+      <p class="eyebrow">Data Science / Machine Learning / AI Engineering</p>
+      <h1 class="hero-title">
+        <span class="line-1">Data Intelligence</span>
+        <span class="line-2">Codex</span>
+      </h1>
+      <p class="hero-subhead">Projects, experiments, and technical notes.</p>
+      <p class="hero-desc">A working archive of data systems, machine learning experiments, and AI engineering projects — documenting what was built, why it works, where it breaks, and what I learned from it.</p>
+      <div class="editorial">
+        <span class="editorial-rule"></span>
+        <p>Every project is a case study in how data becomes a system.</p>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" onclick="navigate('datasets')">Explore the Codex</a>
+        <a class="btn btn-ghost" onclick="navigate('ml')">View Projects</a>
+      </div>
+    </section>
+
+    <section class="codex-section">
+      <p class="meta-tag">Project log 001</p>
+      <h2>The Codex</h2>
+      <p class="codex-lead">Selected experiments in data analysis, machine learning, retrieval systems, and AI engineering.</p>
+      <p class="codex-body">Projects are documented from raw data through implementation, evaluation, and iteration.</p>
+
+      <div class="areas-grid">
+        <div class="area-card" onclick="navigate('datasets')">
+          <span class="area-index">01</span>
+          <h3>Data Science</h3>
+          <p>Explore datasets, uncover patterns, clean messy data, and turn observations into meaningful insights.</p>
+          <span class="area-cta">Explore Datasets →</span>
+        </div>
+        <div class="area-card" onclick="navigate('ml')">
+          <span class="area-index">02</span>
+          <h3>Machine Learning</h3>
+          <p>Experiment with models, understand their behavior, compare approaches, and learn from their failures.</p>
+          <span class="area-cta">Explore ML →</span>
+        </div>
+        <div class="area-card" onclick="navigate('ai')">
+          <span class="area-index">03</span>
+          <h3>AI Engineering</h3>
+          <p>Build systems with embeddings, RAG, LLMs, agents, and the technologies shaping modern AI.</p>
+          <span class="area-cta">Explore AI →</span>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderDatasets(){
   document.title = "Datasets — Data Intelligence Codex";
   app.innerHTML = `

@@ -155,7 +155,21 @@ if __name__ == '__main__':
         build_manifest.build_all(BASE_DIR)
     except Exception:
         pass
-    with socketserver.TCPServer(("", PORT), CodexHandler) as httpd:
+
+    try:
+        httpd = socketserver.TCPServer(("", PORT), CodexHandler)
+    except OSError as e:
+        if e.errno in (48, 98, 10048):  # "address already in use", mac/linux/windows
+            print(f"\nPort {PORT} is already in use — something else (maybe an older")
+            print(f"serve.py you forgot to stop) is already using it.\n")
+            print(f"Easiest fix: run this instead —")
+            print(f"    python serve.py {PORT + 1}")
+            print(f"\nOr free up port {PORT} and try again. See the README for how.\n")
+        else:
+            print(f"\nCouldn't start the server: {e}\n")
+        sys.exit(1)
+
+    with httpd:
         url = f"http://localhost:{PORT}"
         print(f"Serving Data Intelligence Codex at {url}  (Ctrl+C to stop)")
         try:
