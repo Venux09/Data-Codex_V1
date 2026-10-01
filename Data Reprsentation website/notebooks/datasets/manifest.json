@@ -21,6 +21,26 @@
       "number": 1
     },
     {
+      "id": "project-time-series",
+      "title": "Project time series",
+      "description": null,
+      "category": "Data Science",
+      "tools": [
+        "Matplotlib",
+        "NumPy",
+        "Pandas",
+        "Seaborn"
+      ],
+      "year": "2026",
+      "files": [
+        "project_time_series.ipynb"
+      ],
+      "labels": [
+        "Project time series"
+      ],
+      "number": 2
+    },
+    {
       "id": "us-real-estate",
       "title": "Us real estate",
       "description": null,
@@ -47,7 +67,7 @@
         "Finding meaning insights from the data and making a summary and making program to solve the problem",
         "Insights of the Cleaned Estate dataset"
       ],
-      "number": 2
+      "number": 3
     }
   ]
 }
